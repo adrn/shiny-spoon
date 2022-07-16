@@ -168,6 +168,8 @@ At fixed $Z$, $A$ and the unknown parts of $B$ (the parts not set by definition)
 That is, this entire linear latent-variable model can be optimized by iterated least squares, in which there is a \emph{$z$-step} in which $A, B$ are held fixed and $Z$ is optimized, followed by a \emph{$A$-step} in which $Z$ is held fixed and $A$ is optimized (plus any components of $B$ that are not set by definition).
 The $z$-step can be simplified computationally by splitting the optimization of $Z$ into small optimizations by splitting the training set into objects (which are independent, by assumption), and the $A$-step can be simplified computationally similarly by splitting the optimization of $A$ into feature components (which are not independent, so WHAT HAPPENS?).
 
+... HOGG ... add regularization / priors.
+
 .... HOGG ...
 
 \section{Unsupervised models; clustering and de-noising}
