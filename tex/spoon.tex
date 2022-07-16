@@ -87,8 +87,13 @@ In the case of luminosity or distance estimation, these might be \Gaia-measured 
 
 HOGG: What are variances and noise models?
 
-HOGG: How many training and test objects are there?
-Define also the rectangular data $X$, $Y$.
+HOGG: How many training and test objects are there? Perhaps $n$ and $m$?
+The feature $r$-vectors $x_i$ and the label $q$-vectors $y_i$ can be usefully packed into rectangular arrays $X, Y$ such that
+\begin{align}
+  X^\top &= \begin{bmatrix}x_1 & x_2 & x_3 & \cdots & x_n\end{bmatrix} \\
+  Y^\top &= \begin{bmatrix}y_1 & y_2 & y_3 & \cdots & y_n\end{bmatrix} ~,
+\end{align}
+where the transposes are shown to indicate that $X$ is $n\times r$ and $Y$ is $n\times q$.
 
 \section{Discriminative models}
 
@@ -117,6 +122,24 @@ In this model, both the features $x_i$ and the labels $y_i$ for object $i$ are g
 where $\mu_x$ and $\mu_y$ are mean values for the $r$-vector features and the $q$-vector labels,
 $A$ and $B$ are $r\times d$ and $q\times d$ rectangular matrices of coefficients,
 and the ``noise'' is the residual.
+If we think of the rectangular matrices $A, B$ as being themselves being made up of $d$-vectors, then
+\begin{align}
+  A^\top &= \begin{bmatrix}a_1 & a_2 & a_3 & \cdots & a_r\end{bmatrix} \\
+  B^\top &= \begin{bmatrix}b_1 & b_2 & b_3 & \cdots & b_q\end{bmatrix} ~,
+\end{align}
+where each $d$-vector $a_j$ or $b_\ell$ is the vector whose inner product $a_j^\top z_i$ predicts (say) the $j$th component of the feature vector $x_i$ for object $i$.
+Given these definitions, we can say
+\begin{align}
+  x_j &= Z\,a_j + \mbox{noise} \\
+  y_\ell &= Z\,b_\ell + \mbox{noise} ~,
+\end{align}
+where now $x_j$ is the $j$th column of the data matrix $X$ (whereas $x_i$ was the $i$th row of $X$),
+and now $y_\ell$ is the $\ell$th column of $Y$ (whereas $y_i$ was the $i$th row of $Y$)..
+
+The key idea of this generative model is that the latent $d$-vectors $z_i$ contain useful information about the stellar parameters, which are among the labels $z_i$.
+Thus it is useful to hard-set part of the rectangular matrix $B$ such that there are direct and simple relationships between the components of the $z_i$ vectors and the labels.
+For example... HOGG....
+
 Under the joint assumptions that the model is reasonable, the stars are independent, the noise is Gaussian, and the noise variances are known, the likelihood of this model is given by
 \begin{align}
   p(X, Y\given \mu_x, A, \mu_y, B, Z) &= \prod_i p(x_i\given \mu_x, A, z_i)\,p(y_i\given \mu_y, B, z_i) \\
@@ -125,6 +148,11 @@ Under the joint assumptions that the model is reasonable, the stars are independ
 \end{align}
 where $Z$ is the $n\times d$ rectangular block of all $d$-vector latent variables $z_i$,
 and $N(x\given\mu,V)$ is the multivariate Gaussian pdf for a vector $x$ given vector mean $\mu$ and variance tensor $V$.
+
+At fixed $A, B$, the $z_i$ vectors can be found by weighted least squares; the problem is linear.
+At fixed $Z$, $A$ and the unknown parts of $B$ (the parts not set by definition) can be found by weighted least squares.
+That is, this entire linear latent-variable model can be optimized by iterated least squares, in which there is a \emph{$z$-step} in which $A, B$ are held fixed and $Z$ is optimized, followed by a \emph{$A$-step} in which $Z$ is held fixed and $A$ is optimized (plus any components of $B$ that are not set by definition).
+The $z$-step can be simplified computationally by splitting the optimization of $Z$ into small optimizations by splitting the training set into objects (which are independent, by assumption), and the $A$-step can be simplified computationally similarly by splitting the optimization of $A$ into feature components (which are not independent, so WHAT HAPPENS?).
 
 .... HOGG ...
 
