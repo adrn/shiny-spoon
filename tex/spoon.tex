@@ -30,7 +30,7 @@
 
 % Math issues
 \newcommand{\given}{\,|\,}
-\newcommand{\teff}{T_{\mathrm{eff}}}
+\newcommand{\teff}{{T_{\mathrm{eff}}}}
 \newcommand{\logg}{\log g}
 \newcommand{\feh}{[\mathrm{Fe}/\mathrm{H}]}
 
@@ -138,7 +138,21 @@ and now $y_\ell$ is the $\ell$th column of $Y$ (whereas $y_i$ was the $i$th row 
 
 The key idea of this generative model is that the latent $d$-vectors $z_i$ contain useful information about the stellar parameters, which are among the labels $z_i$.
 Thus it is useful to hard-set part of the rectangular matrix $B$ such that there are direct and simple relationships between the components of the $z_i$ vectors and the labels.
-For example... HOGG....
+For example, if our labels are
+\begin{align}
+  y_i^\top &= \begin{bmatrix}\teff_i & \logg_i & \feh_i\end{bmatrix} ~,
+\end{align}
+such that $q=3$, and (say) $d=5$, we can hard-set the rectangular matrix $B$ to
+\begin{align}
+  B &= \begin{bmatrix}
+    1 & 0 & 0 & 0 & 0 \\
+    0 & 1 & 0 & 0 & 0 \\
+    0 & 0 & 1 & 0 & 0
+    \end{bmatrix} ~,
+\end{align}
+to ensure that the first three (of five) components of the latent vectors are the predictors for the three stellar parameters $\teff, \logg, \feh$.
+
+  ... HOGG....
 
 Under the joint assumptions that the model is reasonable, the stars are independent, the noise is Gaussian, and the noise variances are known, the likelihood of this model is given by
 \begin{align}
@@ -149,8 +163,8 @@ Under the joint assumptions that the model is reasonable, the stars are independ
 where $Z$ is the $n\times d$ rectangular block of all $d$-vector latent variables $z_i$,
 and $N(x\given\mu,V)$ is the multivariate Gaussian pdf for a vector $x$ given vector mean $\mu$ and variance tensor $V$.
 
-At fixed $A, B$, the $z_i$ vectors can be found by weighted least squares; the problem is linear.
-At fixed $Z$, $A$ and the unknown parts of $B$ (the parts not set by definition) can be found by weighted least squares.
+At fixed $A, B$, the $z_i$ vectors can be found by weighted least squares; this problem is linear.
+At fixed $Z$, $A$ and the unknown parts of $B$ (the parts not set by definition) can be found by weighted least squares; this problem is \emph{also} linear.
 That is, this entire linear latent-variable model can be optimized by iterated least squares, in which there is a \emph{$z$-step} in which $A, B$ are held fixed and $Z$ is optimized, followed by a \emph{$A$-step} in which $Z$ is held fixed and $A$ is optimized (plus any components of $B$ that are not set by definition).
 The $z$-step can be simplified computationally by splitting the optimization of $Z$ into small optimizations by splitting the training set into objects (which are independent, by assumption), and the $A$-step can be simplified computationally similarly by splitting the optimization of $A$ into feature components (which are not independent, so WHAT HAPPENS?).
 
