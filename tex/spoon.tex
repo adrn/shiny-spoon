@@ -127,13 +127,14 @@ Problem that most methods that produce ``error bars'' have nothing to do with th
 \section{Generative models}
 
 Discriminative models effectively assume that the features $x_i$ are very precisely (and accurately) known, such that it makes sense to predict the labels $y_i$ with a fixed arithmetic function of those features.
-In practice---and especially with the \Gaia\ XP spectra---the features $x_i$ are noisily measured.
-A more accurate statement of our beliefs about the stars is that each star $i$ has a set of physical properties, which are \emph{latent properties}, not direclty observed.
+This isn't tenable when different stars have different noise and some have missing data.
+That is, in practice---and especially with the \Gaia\ XP spectra---the features $x_i$ are noisily and heterogeneously measured.
+A more accurate statement of our beliefs about the stars is that each star $i$ has a set of physical properties, which are \emph{latent properties}, not directly observed.
 These latent properties produce or \emph{generate} both the labels $y_i$ \emph{and} the features $x_i$.
 If those latent properties could be inferred or known, the labels (including missing labels) could be predicted, as could the features (including missing features).
 
 Most physics-based models are generative models:
-The star's properties are set by inputs to the simulation of the star.
+The star's latent properties the inputs to the simulation of the star; the functions that set the observables are the solutions to physical equations.
 In data-driven contexts, generative models are built by simultaneously learning both the latent properties of each star, and also the functions that take the latent properties into the observables (which are the features and labels for the training set, and the features for the test objects).
 
 The simplest generative model of this kind is the \emph{linear latent-variable model}.
