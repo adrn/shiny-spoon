@@ -212,9 +212,26 @@ HOGG: ...
 
 \section{Physics-inspired or hybrid models}
 
+We actually know a huge amount about how stars and stellar photospheres work.
+So we should use this knowledge!
+What would such a model look like?
+It would be a model of the residuals, but with control parameters that are tied together between the data-driven residual model and the theory-driven baseline model.
+
+There are also just very general physics principles, such as
+spectrograph resolution, atomic line idenfication, and so on, that
+suggest data representations that should simplify and improve
+data-driven models. LIKE WHAT??
+
+\section{Uncertainty propagation and estimation}
+
+In general, discriminative models are worse than generative for accounting for uncertainties. WHY??
+
+Most machine-learning methods that claim to deliver uncertainties are not truly delivering uncertainties. WHY?? Because you can't marginalize out the interior of the model; it's huge, and barely determined (there are large, exact degeneracies, and combinatorically large numbers of them).
+Name and shame some of these methods!
+
 \section{Discussion}
 
-Hello World!
+Hello World.
 
 \bibliography{sample631}{}
 \bibliographystyle{aasjournal}
